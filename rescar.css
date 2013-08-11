@@ -1,0 +1,64 @@
+.main {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.rescar-viewport {
+	background: red;
+	overflow: hidden;
+	position: relative;
+}
+
+.rescar {
+	position: relative;
+	left: 0;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	height: 400px;
+	white-space: nowrap;
+	font-size: 0;
+	float: left; /* TODO: need to find a fix for this */
+}
+
+.rescar a,
+.rescar img {
+	display: block;
+}
+
+.rescar-button {
+	position: absolute;
+	top: 0; right: 0;
+	width: 30px;
+	height: 400px;
+	background-color: purple;
+	color: #fff;
+	text-align: center;
+	line-height: 400px;
+	cursor: pointer;
+}
+.rescar-button:hover {
+	background-color: black
+}
+
+/* Different rescar styles */
+.rescar--one-up li{
+	width: 200px;
+	height: 400px;
+	display: inline-block;
+}
+
+.rescar--two-up li {
+	width: 200px;
+	height: 400px;
+	display: inline-block;
+
+}
+
+/* === 600px> === */
+@media screen and (min-width: 600px) {
+	.main {
+		width: 70%;
+	}
+}
+/* === end 600px> === */
