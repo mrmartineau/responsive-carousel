@@ -62,6 +62,14 @@
 		}
 	};
 
+	function $(el) {
+		return document.querySelectorAll(el);
+	}
+
+	function $$(el) {
+		return document.querySelector(el);
+	}
+
 	// -------------------------- init -------------------------- //
 
 	// TODO:
