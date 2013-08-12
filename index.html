@@ -101,5 +101,12 @@
 		</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 		<script src="rescar.js"></script>
+		<script>
+			var twoUpRrescar = document.querySelector('.rescar');
+			var twoUp = new Rescar( twoUpRescar, {
+				itemWidth: 200, // If specified use it, or get width dynamically
+				speed: 60
+			});
+		</script>
 	</body>
 </html>
