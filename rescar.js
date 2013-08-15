@@ -167,9 +167,9 @@
 				// if (next is clicked) {
 					var updatedStyle     = styler(self.rescar).get('left', true);
 
-					if ( self.rescarViewportWidth - self.rescarWidth < updatedStyleLeft + self.smallestSize ) {
+					if ( self.rescarViewportWidth - self.rescarWidth < updatedStyle + self.smallestSize ) {
 						// TODO: Animate left value
-						self.rescar.style.left = (updatedStyleLeft - 200) + 'px';
+						self.rescar.style.left = (updatedStyle - 200) + 'px';
 						console.log('move carousel');
 					} else {
 						// TODO: Animate left value back to beginning
