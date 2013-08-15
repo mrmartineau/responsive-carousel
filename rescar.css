@@ -52,7 +52,11 @@
 	width: 200px;
 	height: 400px;
 	display: inline-block;
-
+}
+.rescar--two-up li a {
+	width: 200px;
+	height: 200px;
+	display: block;
 }
 
 /* === 600px> === */

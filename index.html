@@ -10,7 +10,7 @@
 		<div class="main">
 			<h2>Two-up version</h2>
 			<div class="rescar-viewport">
-				<ul class="rescar rescar--two-up">
+				<ul id="rescar" class="rescar rescar--two-up">
 					<li>
 						<a href=""><img src="http://placehold.it/200x200/1abc9c/dddddd&text=1" alt=""></a>
 						<a href=""><img src="http://placehold.it/200x200/f1c40f/dddddd&text=2" alt=""></a>
@@ -99,14 +99,20 @@
 			</div> -->
 
 		</div>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>-->
 		<script src="rescar.js"></script>
 		<script>
-			var twoUpRrescar = document.querySelector('.rescar');
-			var twoUp = new Rescar( twoUpRescar, {
-				itemWidth: 200, // If specified use it, or get width dynamically
-				speed: 60
-			});
+			document.addEventListener('DOMContentLoaded', function() {
+				console.log('[DOMContentLoaded]');
+				var twoUpRescar = document.getElementById('rescar');
+				var twoUp = new Rescar(twoUpRescar, {
+					itemWidth: 200, // If specified use it, or get width dynamically
+					speed: 60
+				});
+				// console.log('before');
+				// twoUp;
+
+			}, false);
 		</script>
 	</body>
 </html>
