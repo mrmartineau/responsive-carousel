@@ -78,7 +78,7 @@
 			 * @prop : String - CSS property name e.g 'width', 'height'
 			 * @int  : Boolean
 			 */
-			get : function(prop, int) {
+			get : function get(prop, int) {
 				/* TODO:
 				 * Get multiple CSS properties. prop could be comma separated list
 				 * Allow get all css values
@@ -97,7 +97,7 @@
 			 * @prop : String - CSS property name e.g 'width', 'height'
 			 * @val  : String - CSS property value e.g. '200px'
 			 */
-			set : function(prop, val) {
+			set : function set(prop, val) {
 				/* TODO:
 				 * Set multiple CSS properties. prop could be comma separated list
 				 * Throw errors when args not in correct format
@@ -131,11 +131,11 @@
 			if (!(this instanceof Rescar)) {
 				return new Rescar(rescar, options);
 			}
-			// constructor body
 
-			this.options             = options;
+			this.options             = options || {};
 			this.rescar              = rescar;
-			this.rescarViewport      = $$('.rescar-viewport');
+			this.rescarViewport      = $$('.rescar-viewport'); // This will be dynamically created
+			this.rescarItems         = $$('.rescar li');
 
 			window.onresize          = this.resize.debounce(150);
 			this.resize();
@@ -144,12 +144,10 @@
 
 		// On window/viewport resize
 		Rescar.prototype.resize = function() {
-			this.elstyle             = window.getComputedStyle(this.rescar, null);
-			this.parentStyle         = window.getComputedStyle(this.rescar.parentNode, null);
 			this.rescarViewportWidth = styler(this.rescar.parentNode).get('width', true);
 			this.rescarWidth         = styler(this.rescar).get('width', true);
-			this.rescarItemSize      = this.options.itemWidth ? this.options.itemWidth : 200;
-			this.smallestSize        = Math.round( this.rescarViewportWidth / this.rescarItemSize );
+			this.rescarItemWidth     = parseInt(this.options.itemWidth, 10) || styler(this.rescarItems).get('width', true); // Get dynamically
+			this.smallestSize        = Math.round( this.rescarViewportWidth / this.rescarItemWidth );
 
 			// this.buttonToggle();
 
@@ -162,6 +160,8 @@
 		Rescar.prototype.buttonListener = function() {
 			var buttons = $$('.rescar-button');
 			var self = this;
+
+			// Only move the difference if we are at the end
 
 			buttons.addEventListener('click', function(event) {
 				// if (next is clicked) {
