@@ -5,7 +5,7 @@
  * by Zander Martineau
  */
 
-( function( window ) {
+// ( function( window ) {
 
 'use strict';
 
@@ -62,6 +62,7 @@
 		}
 	};
 
+	// Quick DOM methods
 	function $(el) {
 		return document.querySelectorAll(el);
 	}
@@ -122,85 +123,78 @@
 	// - * Add buttons dynamically
 	// - * Wrap <ul> with .rescar-viewport
 
-	function Rescar(itemWidth, speed, buttonR, buttonL) {
-		this.rescarViewport      = document.querySelectorAll('.rescar-viewport');
-		this.rescar              = document.querySelectorAll('.rescar');
-		this.rescarItemSize      = this.itemWidth ? this.itemWidth : 200;
-		this.smallestSize        = Math.round( this.rescarViewportWidth / this.rescarItemSize );
+	var Rescar = (function() {
+		'use strict';
 
-		window.onresize          = this.resize.debounce(150);
-		this.resize();
-		this.buttonListener();
-	};
+		function Rescar(rescar, options) {
+			// enforces new
+			if (!(this instanceof Rescar)) {
+				return new Rescar(rescar, options);
+			}
+			// constructor body
 
-	// On window/viewport resize
-	Rescar.prototype.resize = function() {
-		this.rescarViewportWidth = this.rescarViewport.offsetWidth;
-		this.rescarWidth         = this.rescar.offsetWidth;
+			this.options             = options;
+			this.rescar              = rescar;
+			this.rescarViewport      = $$('.rescar-viewport');
 
-		if ( !this.itemWidth ) {
-			// itemWidth fall back to item of first element
-			this.itemWidth = firstItemElem ? getSize( firstItemElem ).outerWidth :
-				// or size of container
-				this.size.innerWidth;
+			window.onresize          = this.resize.debounce(150);
+			this.resize();
+			this.buttonListener();
 		}
-		this.buttonToggle();
 
-		console.log('this.rescarViewportWidth: ', this.rescarViewportWidth);
-		console.log('this.rescarWidth: ', this.rescarWidth);
-		console.log('this.smallestSize: ', this.smallestSize);
-	};
+		// On window/viewport resize
+		Rescar.prototype.resize = function() {
+			this.elstyle             = window.getComputedStyle(this.rescar, null);
+			this.parentStyle         = window.getComputedStyle(this.rescar.parentNode, null);
+			this.rescarViewportWidth = styler(this.rescar.parentNode).get('width', true);
+			this.rescarWidth         = styler(this.rescar).get('width', true);
+			this.rescarItemSize      = this.options.itemWidth ? this.options.itemWidth : 200;
+			this.smallestSize        = Math.round( this.rescarViewportWidth / this.rescarItemSize );
 
-	// Get rescar width
-	Rescar.prototype.getResCarWidth = function() {
+			// this.buttonToggle();
 
-	};
+			// console.log('this.rescarViewportWidth: ', this.rescarViewportWidth);
+			// console.log('this.rescarWidth: ', this.rescarWidth);
+			// console.log('this.smallestSize: ', this.smallestSize);
+		};
 
-	// Get rescar item widths
-	Rescar.prototype.getRescarItemWidth = function() {
+		//
+		Rescar.prototype.buttonListener = function() {
+			var buttons = $$('.rescar-button');
+			var self = this;
 
-	};
+			buttons.addEventListener('click', function(event) {
+				// if (next is clicked) {
+					var updatedStyle     = styler(self.rescar).get('left', true);
 
-	//
-	Rescar.prototype.buttonListener = function() {
-		var buttons = document.querySelectorAll('.rescar-button');
+					if ( self.rescarViewportWidth - self.rescarWidth < updatedStyleLeft + self.smallestSize ) {
+						// TODO: Animate left value
+						self.rescar.style.left = (updatedStyleLeft - 200) + 'px';
+						console.log('move carousel');
+					} else {
+						// TODO: Animate left value back to beginning
+						self.rescar.style.left = '0px';
+						console.log('move carousel back to beginning');
+					}
+				// } else {
 
-		buttons.addEventListener('click', function(event) {
-			// if (next is clicked) {
-				var style = window.getComputedStyle(this.rescar, null);
-				console.log(style);
-				if ( this.rescarViewportWidth - this.rescarWidth < ( parseInt(this.rescar.css('left'), 10) + smallestSize ) ) {
-					this.rescarViewport.find('.rescar').animate({
-						left: '-=200px'},
-						'slow'
-					);
-					console.log('move carousel');
-				} else {
-					this.rescarViewport.find('.rescar').animate({
-						left: '0px'},
-						'slow'
-					);
-					console.log('move carousel back to beginning');
-				}
-			// } else {
+				// }
 
-			// }
+			}, false);
+		};
 
-		}, false);
-	};
+		// Show/hide next button
+		Rescar.prototype.buttonToggle = function() {
+			if ( this.rescarViewportWidth > this.rescarWidth + 30 ){
+				$('.rescar-button').style.display = "none";
+			} else {
+				$('.rescar-button').style.display = "block";
+			}
+		};
 
-	//
-	Rescar.prototype.getRescarItemWidth = function() {
+		return Rescar;
 
-	};
+	}());
 
-	// Show/hide next button
-	Rescar.prototype.buttonToggle = function() {
-		if ( this.rescarViewportWidth > this.rescarWidth + 30 ){
-			$('.rescar-button').hide();
-		} else {
-			$('.rescar-button').show();
-		}
-	};
 
-})( window );
+// })( window );
